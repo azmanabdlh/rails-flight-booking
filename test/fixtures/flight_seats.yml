@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  flight: one
+  seat_number: MyString
+  availability_state: MyString
+  locked_until: 2026-02-05 12:44:32
+
+two:
+  flight: two
+  seat_number: MyString
+  availability_state: MyString
+  locked_until: 2026-02-05 12:44:32

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  booking_code: MyString
+  user: one
+  phase: 1
+  expired_at: 2026-02-06 00:00:39
+
+two:
+  booking_code: MyString
+  user: two
+  phase: 1
+  expired_at: 2026-02-06 00:00:39

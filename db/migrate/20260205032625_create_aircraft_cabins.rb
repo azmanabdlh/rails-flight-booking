@@ -5,7 +5,7 @@ class CreateAircraftCabins < ActiveRecord::Migration[8.0]
       t.string :cabin_code
       t.integer :row_start
       t.integer :row_end
-      t.string :exit_rows
+      t.jsonb :row_features
       t.string :aisle_columns
 
       t.timestamps

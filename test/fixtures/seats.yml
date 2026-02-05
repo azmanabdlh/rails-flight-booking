@@ -4,10 +4,10 @@ one:
   flight: one
   seat_number: MyString
   availability_state: MyString
-  locked_until: 2026-02-05 12:44:32
+  locked_until: 2026-02-06 07:29:31
 
 two:
   flight: two
   seat_number: MyString
   availability_state: MyString
-  locked_until: 2026-02-05 12:44:32
+  locked_until: 2026-02-06 07:29:31

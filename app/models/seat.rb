@@ -1,4 +1,4 @@
-class FlightSeat < ApplicationRecord
+class Seat < ApplicationRecord
   belongs_to :flight
   has_and_belongs_to_many :bookings
 
@@ -7,5 +7,4 @@ class FlightSeat < ApplicationRecord
     available: "AVAILABLE",
     reserved: "RESERVED"
   }
-
 end

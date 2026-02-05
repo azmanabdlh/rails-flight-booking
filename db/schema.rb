@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_05_155053) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_05_223313) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,23 +45,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_05_155053) do
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
-  create_table "bookings_flight_seats", id: false, force: :cascade do |t|
+  create_table "bookings_seats", id: false, force: :cascade do |t|
     t.bigint "booking_id", null: false
-    t.bigint "flight_seat_id", null: false
+    t.bigint "seat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["booking_id"], name: "index_bookings_flight_seats_on_booking_id"
-    t.index ["flight_seat_id"], name: "index_bookings_flight_seats_on_flight_seat_id"
-  end
-
-  create_table "flight_seats", force: :cascade do |t|
-    t.bigint "flight_id", null: false
-    t.string "seat_number"
-    t.string "availability_state"
-    t.datetime "locked_until"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["flight_id"], name: "index_flight_seats_on_flight_id"
+    t.index ["booking_id"], name: "index_bookings_seats_on_booking_id"
+    t.index ["seat_id"], name: "index_bookings_seats_on_seat_id"
   end
 
   create_table "flights", force: :cascade do |t|
@@ -74,6 +64,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_05_155053) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["aircraft_id"], name: "index_flights_on_aircraft_id"
+  end
+
+  create_table "seats", force: :cascade do |t|
+    t.bigint "flight_id", null: false
+    t.string "seat_code"
+    t.string "availability_state"
+    t.datetime "locked_until"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flight_id"], name: "index_seats_on_flight_id"
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -98,10 +98,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_05_155053) do
 
   add_foreign_key "aircraft_cabins", "aircrafts"
   add_foreign_key "bookings", "users"
-  add_foreign_key "bookings_flight_seats", "bookings"
-  add_foreign_key "bookings_flight_seats", "flight_seats"
-  add_foreign_key "flight_seats", "flights"
+  add_foreign_key "bookings_seats", "bookings"
+  add_foreign_key "bookings_seats", "seats"
   add_foreign_key "flights", "aircrafts"
+  add_foreign_key "seats", "flights"
   add_foreign_key "tickets", "bookings"
   add_foreign_key "tickets", "flights"
 end

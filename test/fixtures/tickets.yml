@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  booking: one
+  flight: one
+  passenger_id: 1
+  issued_at: 2026-02-06 00:50:53
+  seat_code: MyString
+  status: 1
+
+two:
+  booking: two
+  flight: two
+  passenger_id: 1
+  issued_at: 2026-02-06 00:50:53
+  seat_code: MyString
+  status: 1

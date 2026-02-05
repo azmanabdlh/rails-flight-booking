@@ -1,18 +1,17 @@
 class SeatReservationController < ApplicationController
   def call
-    req = flight_params
-    flight = Flight.find(req[:flight_id])
+    flight = Flight.find(params[:flight_id])
+    seat_code = params[:seat_code]
 
-    unless flight.seat_available?(req[:seat_code])
+    unless flight.seat_available?(seat_code)
       render json: { message: "seat not available", success: false }, status: :bad_request
     end
 
-    # .....
+    Booking.mark_seat_book(
+      resume_session
+    )
 
+    render json: { message: "seat #{seat_code} booked", success: true }, status: :ok
   end
 
-  private
-  def flight_params
-    params.permit(:flight_id, :seat_code)
-  end
 end

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  manufacturer: MyString
+  model: MyString
+  variant: MyString
+  manufacture_year: 1
+
+two:
+  manufacturer: MyString
+  model: MyString
+  variant: MyString
+  manufacture_year: 1

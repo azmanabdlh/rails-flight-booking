@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  aircraft: one
+  cabin_code: MyString
+  row_start: 1
+  row_end: 1
+  exit_rows: MyString
+  aisle_columns: MyString
+
+two:
+  aircraft: two
+  cabin_code: MyString
+  row_start: 1
+  row_end: 1
+  exit_rows: MyString
+  aisle_columns: MyString

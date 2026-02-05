@@ -45,13 +45,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_05_150156) do
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
-  create_table "bookings_flights", id: false, force: :cascade do |t|
+  create_table "bookings_flight_seats", id: false, force: :cascade do |t|
     t.bigint "booking_id", null: false
-    t.bigint "flight_id", null: false
+    t.bigint "flight_seat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["booking_id"], name: "index_bookings_flights_on_booking_id"
-    t.index ["flight_id"], name: "index_bookings_flights_on_flight_id"
+    t.index ["booking_id"], name: "index_bookings_flight_seats_on_booking_id"
+    t.index ["flight_seat_id"], name: "index_bookings_flight_seats_on_flight_seat_id"
   end
 
   create_table "flight_seats", force: :cascade do |t|
@@ -85,8 +85,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_05_150156) do
 
   add_foreign_key "aircraft_cabins", "aircrafts"
   add_foreign_key "bookings", "users"
-  add_foreign_key "bookings_flights", "bookings"
-  add_foreign_key "bookings_flights", "flights"
+  add_foreign_key "bookings_flight_seats", "bookings"
+  add_foreign_key "bookings_flight_seats", "flight_seats"
   add_foreign_key "flight_seats", "flights"
   add_foreign_key "flights", "aircrafts"
 end

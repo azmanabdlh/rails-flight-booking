@@ -1,8 +1,4 @@
 class Booking < ApplicationRecord
-  extend ClassMethods
-
-  LOCK_DURATION = 30.minutes
-
   belongs_to :user
   has_and_belongs_to_many :seats
 
@@ -13,23 +9,12 @@ class Booking < ApplicationRecord
     expired: "EXPIRED"
   }
 
-  module ClassMethods
+  BOOKING_EXPIRE_DURATION = 10.minutes
 
-    def generate_code; end
 
-    def reserve_seat!(flight_id, seat, user_id)
-      create!(
-        booking_code: generate_code,
-        user_id: user_id,
-        phase: "PENDING",
-        expired_at: LOCK_DURATION.from_now
-      )
-
-      seat.update!(
-        availability_state: "LOCKED",
-        locked_until: LOCK_DURATION.from_now
-      )
-
+  class << self
+    def generate_code
+      SecureRandom.alphanumeric(8).upcase
     end
 
     def start_seat_booking!(
@@ -44,7 +29,14 @@ class Booking < ApplicationRecord
 
         raise SeatUnavailable unless seat.lockable?
 
-        reserve_seat!(flight_id, seat, user_id)
+        expired_at = BOOKING_EXPIRE_DURATION.from_now
+
+        create!(
+          booking_code: generate_code,
+          user_id: user_id,
+          phase: "PENDING",
+          expired_at: expired_at
+        ) << seat.reserve(expired_at)
       end
     end
   end

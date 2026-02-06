@@ -5,7 +5,7 @@ class SeatReservationController < ApplicationController
       Booking.start_seat_booking!(
         params[:flight_id],
         params[:seat_code],
-        resume_session
+        1
       )
 
       render json: { message: "seat #{params[:seat_code]} booked", success: true }, status: :created

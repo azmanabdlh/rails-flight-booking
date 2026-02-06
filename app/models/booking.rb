@@ -47,4 +47,8 @@ class Booking < ApplicationRecord
       end
     end
   end
+
+
+  class SeatAlreadyBooked < StandardError; end
+  class SeatUnavailable < StandardError; end
 end

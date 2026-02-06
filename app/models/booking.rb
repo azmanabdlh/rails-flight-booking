@@ -1,9 +1,10 @@
 class Booking < ApplicationRecord
-
   extend ClassMethods
 
+  LOCK_DURATION = 30.minutes
+
   belongs_to :user
-  has_and_belongs_to_many :flight_seats
+  has_and_belongs_to_many :seats
 
   enum :phase, {
     paid: "PAID",
@@ -13,12 +14,36 @@ class Booking < ApplicationRecord
   }
 
   module ClassMethods
-    def mark_seat_book(user_id)
+
+    def generate_code;end
+
+    def reserve_seat(flight_id, seat_code, user_id)
+      create!(
+        booking_code: generate_code,
+        user_id: user_id,
+        phase: "PENDING",
+        expired_at: LOCK_DURATION.from_now
+      ).seats.create!(
+        seat_code: seat_code,
+        flight_id: flight_id,
+        availability_state: "LOCKED",
+        locked_until: LOCK_DURATION.from_now
+      )
+    end
+
+    def mark_seat_book(
+      flight_id,
+      seat_code,
+      user_id
+    )
       transaction do
-        # TODO ..
-        # 1. lock the seat.
-        # 2. assign seat to book pivot table
-        # 3. done
+        seat = Seat
+          .lock
+          .find_by!(flight_id: flight_id, seat_code: seat_code)
+
+        raise SeatUnavailable unless seat.lockable?
+
+        reserve_seat(flight_id, seat_code, user_id)
       end
     end
   end

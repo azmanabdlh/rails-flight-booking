@@ -8,9 +8,4 @@ class Flight < ApplicationRecord
     cancelled: 3
   }
 
-  def seat_available?(code)
-    seat = seats.find_by(seat_code: code)
-
-    (seat.blank? || seat.available?) && open_for_sale?
-  end
 end

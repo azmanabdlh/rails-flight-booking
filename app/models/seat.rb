@@ -7,4 +7,8 @@ class Seat < ApplicationRecord
     available: "AVAILABLE",
     reserved: "RESERVED"
   }
+
+  def lockable?
+    available? || (locked? && locked_until < Time.current)
+  end
 end

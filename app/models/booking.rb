@@ -29,14 +29,15 @@ class Booking < ApplicationRecord
 
         raise SeatUnavailable unless seat.lockable?
 
-        expired_at = BOOKING_EXPIRE_DURATION.from_now
+        locked_until = BOOKING_EXPIRE_DURATION.from_now
+        seat.reserve(locked_until)
 
         create!(
           booking_code: generate_code,
           user_id: user_id,
           phase: "PENDING",
-          expired_at: expired_at
-        ) << seat.reserve(expired_at)
+          expired_at: locked_until
+        ).seats << seat
       end
     end
   end

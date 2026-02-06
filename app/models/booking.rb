@@ -17,21 +17,22 @@ class Booking < ApplicationRecord
 
     def generate_code;end
 
-    def reserve_seat(flight_id, seat_code, user_id)
+    def reserve_seat!(flight_id, seat, user_id)
       create!(
         booking_code: generate_code,
         user_id: user_id,
         phase: "PENDING",
         expired_at: LOCK_DURATION.from_now
-      ).seats.create!(
-        seat_code: seat_code,
-        flight_id: flight_id,
+      )
+
+      seat.update!(
         availability_state: "LOCKED",
         locked_until: LOCK_DURATION.from_now
       )
+
     end
 
-    def mark_seat_book(
+    def start_seat_booking(
       flight_id,
       seat_code,
       user_id
@@ -43,7 +44,7 @@ class Booking < ApplicationRecord
 
         raise SeatUnavailable unless seat.lockable?
 
-        reserve_seat(flight_id, seat_code, user_id)
+        reserve_seat!(flight_id, seat, user_id)
       end
     end
   end

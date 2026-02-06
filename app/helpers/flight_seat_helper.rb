@@ -1,0 +1,2 @@
+module FlightSeatHelper
+end

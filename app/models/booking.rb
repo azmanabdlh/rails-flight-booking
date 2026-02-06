@@ -15,7 +15,7 @@ class Booking < ApplicationRecord
 
   module ClassMethods
 
-    def generate_code;end
+    def generate_code; end
 
     def reserve_seat!(flight_id, seat, user_id)
       create!(
@@ -32,7 +32,7 @@ class Booking < ApplicationRecord
 
     end
 
-    def start_seat_book(
+    def start_seat_booking!(
       flight_id,
       seat_code,
       user_id

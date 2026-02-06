@@ -2,7 +2,7 @@ class SeatReservationController < ApplicationController
   def call
     begin
 
-      Booking.start_seat_booking(
+      Booking.start_seat_booking!(
         params[:flight_id],
         params[:seat_code],
         resume_session

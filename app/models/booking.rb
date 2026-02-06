@@ -3,10 +3,10 @@ class Booking < ApplicationRecord
   has_and_belongs_to_many :seats
 
   enum :phase, {
-    paid: "PAID",
-    cancelled: "CANCELLED",
-    pending: "PENDING",
-    expired: "EXPIRED"
+    paid: 1,
+    cancelled: 2,
+    pending: 3,
+    expired: 4
   }
 
   BOOKING_EXPIRE_DURATION = 10.minutes
@@ -30,7 +30,7 @@ class Booking < ApplicationRecord
         raise SeatUnavailable unless seat.lockable?
 
         locked_until = BOOKING_EXPIRE_DURATION.from_now
-        seat.reserve(locked_until)
+        seat.lock_until(locked_until)
 
         create!(
           booking_code: generate_code,

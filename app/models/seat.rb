@@ -9,11 +9,11 @@ class Seat < ApplicationRecord
   }
 
   def lockable?
-    available? || (locked? && locked_until < Time.current)
+    available? || (locked? && locked_until < Time.now)
   end
 
-  def reserve(locked_until)
-    update!(
+  def lock_until(locked_until)
+    update(
       availability_state: "LOCKED",
       locked_until: locked_until
     )

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_05_223313) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_06_105558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -63,13 +63,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_05_223313) do
     t.bigint "aircraft_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "operational_state"
     t.index ["aircraft_id"], name: "index_flights_on_aircraft_id"
   end
 
   create_table "seats", force: :cascade do |t|
     t.bigint "flight_id", null: false
     t.string "seat_code"
-    t.string "availability_state"
+    t.string "availability_state", default: "AVAILABLE"
     t.datetime "locked_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

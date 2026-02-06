@@ -32,7 +32,7 @@ class Booking < ApplicationRecord
 
     end
 
-    def start_seat_booking(
+    def start_seat_book(
       flight_id,
       seat_code,
       user_id
@@ -40,7 +40,7 @@ class Booking < ApplicationRecord
       transaction do
         seat = Seat
           .lock
-          .find_by!(flight_id: flight_id, seat_code: seat_code)
+          .find_or_create_by(flight_id: flight_id, seat_code: seat_code)
 
         raise SeatUnavailable unless seat.lockable?
 

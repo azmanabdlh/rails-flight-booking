@@ -11,7 +11,7 @@ class FlightSeatSerializer
 
   many :seat_inventory do
     seats.not_available.map do |seat|
-      { seat_code: seat.seat_code, availability_state: seat.availability_state }
+      { seat_code: seat.seat_code, cabin_code: seat.cabin_code, availability_state: seat.availability_state }
     end
   end
 

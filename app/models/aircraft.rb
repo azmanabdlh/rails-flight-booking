@@ -1,4 +1,4 @@
 class Aircraft < ApplicationRecord
-  has_many :cabins
+  has_many :aircraft_cabins
 
 end

@@ -1,6 +1,8 @@
 class Flight < ApplicationRecord
   belongs_to :aircraft
   has_many :seats
+  has_many :bookings
+
 
   enum :operational_state, {
     open_for_sale: 1,

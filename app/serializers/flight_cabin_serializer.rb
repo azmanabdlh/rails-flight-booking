@@ -2,19 +2,18 @@
 class FlightCabinSerializer
    include Alba::Resource
 
-  attributes :cabin_code,
-    :rows,
-    :cabin,
-    :seat_columns,
-    :seats
-
-  def rows
-    { start: row_start, end: row_end }
+  attributes :cabin_code
+  attribute :cabin_class do |cabin|
+    AircraftCabin.cabin_codes[cabin.cabin_code]
   end
 
-  def seat_columns
-    seat_by_aisle
+
+
+  attribute :rows do |cabin|
+    { start: cabin.row_start, end: cabin.row_end }
   end
 
-  def seats; end
+  attribute :seat_by_aisle_columns do |cabin|
+    cabin.seat_by_aisle
+  end
 end

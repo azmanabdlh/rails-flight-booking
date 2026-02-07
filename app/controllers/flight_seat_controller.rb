@@ -2,7 +2,8 @@ class FlightSeatController < ApplicationController
   def call
     begin
 
-      render json: { message: "ok",
+      render json: {
+        message: "ok",
         data: serialize(
           Flight.find(
             params(:flight_id)

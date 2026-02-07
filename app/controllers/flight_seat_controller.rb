@@ -6,7 +6,7 @@ class FlightSeatController < ApplicationController
         message: "ok",
         data: serialize(
           Flight.find(
-            params(:flight_id)
+            params[:flight_id]
           )
         )
       }, status: :ok
@@ -19,6 +19,6 @@ class FlightSeatController < ApplicationController
 
   private
   def serialize(flight)
-     FlightSeatSerializer.new(flight).serialize
+    FlightSeatSerializer.new(flight).as_json
   end
 end

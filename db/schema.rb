@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_06_105558) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_07_132943) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -74,6 +74,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_105558) do
     t.datetime "locked_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "cabin_code"
     t.index ["flight_id"], name: "index_seats_on_flight_id"
   end
 

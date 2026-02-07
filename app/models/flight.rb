@@ -10,4 +10,8 @@ class Flight < ApplicationRecord
     cancelled: 3
   }
 
+  def cabins
+    aircraft.aircraft_cabins
+  end
+
 end

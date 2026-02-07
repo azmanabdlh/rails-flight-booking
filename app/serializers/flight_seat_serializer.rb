@@ -1,0 +1,1 @@
+class FlightSeatSerializer; end

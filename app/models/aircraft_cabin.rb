@@ -36,6 +36,6 @@ class AircraftCabin < ApplicationRecord
     return false unless row_part.chars.all? { |c| c >= "0" && c <= "9" }
     row = row_part.to_i
 
-    (row_start <= row && row <= row_end) && seat_columns.include?(col)
+    (row_start <= row && row <= row_end) && seat_columns.include?(col.upcase)
   end
 end

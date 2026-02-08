@@ -7,9 +7,13 @@ class FlightSeatSerializer
     :departure_time,
     :arrival_time
 
-  many :cabins, resource: FlightCabinSerializer
+  attribute :aircraft_cabins do |flight|
+    flight.aircraft.aircraft_cabins.map do |cabin|
+      FlightCabinSerializer.new(cabin).to_h
+    end
+  end
 
-  attribute :seat_inventory do |flight|
+  attribute :unavailable_seats do |flight|
     flight.seats.not_available.map do |seat|
       { seat_code: seat.seat_code, cabin_code: seat.cabin_code, availability_state: seat.availability_state }
     end

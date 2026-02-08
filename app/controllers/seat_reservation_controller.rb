@@ -2,6 +2,12 @@ class SeatReservationController < ApplicationController
   def call
     begin
 
+      raise SeatUnavailable unless seat_code_valid_for_cabin?(
+        params[:flight_id],
+        params[:cabin_code],
+        params[:seat_code]
+      )
+
       Booking.start_seat_booking!(
         params[:flight_id],
         params[:seat_code],
@@ -20,4 +26,13 @@ class SeatReservationController < ApplicationController
     end
   end
 
+  def seat_code_valid_for_cabin?(
+    flight_id,
+    cabin_code,
+    seat_code
+  )
+
+    Flight.find(flight_id)
+      .seat_code_valid_for_cabin?(seat_code, cabin_code)
+  end
 end

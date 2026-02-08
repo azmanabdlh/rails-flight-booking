@@ -10,8 +10,11 @@ class Flight < ApplicationRecord
     cancelled: 3
   }
 
-  def cabins
-    aircraft.aircraft_cabins
+  def seat_code_valid_for_cabin?(cabin_code, seat_code)
+    aircraft_cabin = aircraft.aircraft_cabins.find_by(cabin_code: cabin_code)
+    return false if aircraft_cabin.nil?
+
+    aircraft_cabin.seat_code_valid_format?(seat_code)
   end
 
 end

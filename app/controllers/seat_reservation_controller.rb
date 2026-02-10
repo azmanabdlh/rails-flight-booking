@@ -2,7 +2,7 @@ class SeatReservationController < ApplicationController
   def call
     begin
 
-      raise ActiveRecord::RecordNotFound unless seat_code_valid_for_cabin?(
+      raise Booking::SeatUnavailable unless seat_code_valid_for_cabin?(
         params[:flight_id],
         params[:cabin_code],
         params[:seat_code]

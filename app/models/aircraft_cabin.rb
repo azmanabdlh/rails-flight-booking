@@ -26,6 +26,7 @@ class AircraftCabin < ApplicationRecord
 
   def seat_code_valid_format?(seat_code)
     # <COLUMN_LETTER><ROW_NUMBER>
+    # example: A12, B22
     return false if seat_code.nil?
     return false unless seat_code.is_a?(String)
     return false if seat_code.size < 2

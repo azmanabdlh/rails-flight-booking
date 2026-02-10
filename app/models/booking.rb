@@ -35,7 +35,7 @@ class Booking < ApplicationRecord
         create!(
           booking_code: generate_code,
           user_id: user_id,
-          phase: "PENDING",
+          phase: 3,
           expired_at: locked_until
         ).seats << seat
       end

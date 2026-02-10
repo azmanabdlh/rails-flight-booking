@@ -10,17 +10,17 @@ class FlightSeatSerializer
       :arrival_time
 
 
-      nested :aircraft do
-        attribute :information do |flight|
-          { model: flight.aircraft.model, variant: flight.aircraft.variant }
-        end
+    nested :aircraft do
+      attribute :information do |flight|
+        { model: flight.aircraft.model, variant: flight.aircraft.variant }
+      end
 
-        attribute :available_cabins do |flight|
-          flight.aircraft.aircraft_cabins.map do |cabin|
-            FlightCabinSerializer.new(cabin).to_h
-          end
+      attribute :available_cabins do |flight|
+        flight.aircraft.aircraft_cabins.map do |cabin|
+          FlightCabinSerializer.new(cabin).to_h
         end
       end
+    end
   end
 
 
@@ -34,14 +34,8 @@ class FlightSeatSerializer
           availability_state: seat.availability_state
         }
       end
-
-    end
-    attribute :components do
-      {}
     end
 
   end
-
-
 
 end

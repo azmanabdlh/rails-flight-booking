@@ -14,7 +14,7 @@ class SeatReservationController < ApplicationController
         1
       )
 
-      render json: { message: "seat #{params[:seat_code]} booked", success: true }, status: :created
+      render json: { message: "Seat #{params[:seat_code]} booked", success: true }, status: :created
     rescue ActiveRecord::RecordNotFound
       render json: { message: "Seat not found" }, status: :not_found
     rescue Booking::SeatUnavailable

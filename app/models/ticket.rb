@@ -9,6 +9,12 @@ class Ticket < ApplicationRecord
     arrived: 4
   }
 
+  def self.seat_available?(flight_id, seat_code)
+    not lock.find_by(
+      flight_id: flight_id,
+      seat_code: seat_code
+    ).nil?
+  end
 
   def start_confirm_seat!(
     flight_id,
@@ -17,18 +23,22 @@ class Ticket < ApplicationRecord
   )
     transaction do
       return nil if ticket.seat_assigned?
-      raise SeatUnavailable.new(seat_code) unless ticket.seat_available?
 
-      boarding_seat(seat_code)
+      raise Ticket::SeatUnavailable, seat_code unless Ticket.seat_available?(
+        request[:flight_id],
+        request[:seat_code]
+      )
+
+      assign_seat_to_ticket!(seat_code)
     end
   end
 
   def seat_assigned?
-    not seat_code.blank?
+    seat_code != "" && boaring?
   end
 
-  def boarding_seat(seat_code)
-    update(
+  def assign_seat_to_ticket!(seat_code)
+    update!(
       # TODO: pessager snapshot...
       seat_code: seat_code,
       status: "boarding",

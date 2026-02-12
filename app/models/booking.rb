@@ -11,7 +11,11 @@ class Booking < ApplicationRecord
   BOOKING_EXPIRE_DURATION = 10.minutes
 
 
-  class NotPaid < StandardError; end
+  class NotPaid < StandardError
+    def initialize
+      super("You booking is not paid yet.")
+    end
+  end
 
   private
   def generate_code

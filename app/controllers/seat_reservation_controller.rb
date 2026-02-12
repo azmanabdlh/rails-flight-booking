@@ -9,7 +9,7 @@ class SeatReservationController < ApplicationController
         request[:seat_code]
       )
 
-      raise Booking::NotPaid.new "You booking is not paid yet." unless Booking.find(request[:booking_id]).paid?
+      raise Booking::NotPaid unless Booking.find(request[:booking_id]).paid?
 
        Ticket.find(request[:ticket_id]).start_confirm_seat!(
           request[:flight_id],

@@ -10,7 +10,7 @@ class Ticket < ApplicationRecord
   }
 
   def self.seat_available?(flight_id, seat_code)
-    not lock.find_by(
+    lock.find_by(
       flight_id: flight_id,
       seat_code: seat_code
     ).nil?
@@ -22,13 +22,10 @@ class Ticket < ApplicationRecord
     user_id
   )
     transaction do
-      return nil if ticket.seat_assigned?
+      return nil if seat_assigned?
 
       raise Booking::NotPaid unless booking.paid?
-      raise Ticket::SeatUnavailable, seat_code unless Ticket.seat_available?(
-        request[:flight_id],
-        request[:seat_code]
-      )
+      raise Ticket::SeatUnavailable, seat_code unless Ticket.seat_available?(flight_id, seat_code)
 
       assign_seat_to_ticket!(seat_code)
     end

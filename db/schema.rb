@@ -46,15 +46,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_07_142728) do
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
-  create_table "bookings_seats", id: false, force: :cascade do |t|
-    t.bigint "booking_id", null: false
-    t.bigint "seat_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["booking_id"], name: "index_bookings_seats_on_booking_id"
-    t.index ["seat_id"], name: "index_bookings_seats_on_seat_id"
-  end
-
   create_table "flights", force: :cascade do |t|
     t.string "flight_code"
     t.string "departure_airport"
@@ -66,17 +57,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_07_142728) do
     t.datetime "updated_at", null: false
     t.integer "operational_state"
     t.index ["aircraft_id"], name: "index_flights_on_aircraft_id"
-  end
-
-  create_table "seats", force: :cascade do |t|
-    t.bigint "flight_id", null: false
-    t.string "seat_code"
-    t.string "availability_state", default: "AVAILABLE"
-    t.datetime "locked_until"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "cabin_code"
-    t.index ["flight_id"], name: "index_seats_on_flight_id"
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -101,10 +81,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_07_142728) do
 
   add_foreign_key "aircraft_cabins", "aircrafts"
   add_foreign_key "bookings", "users"
-  add_foreign_key "bookings_seats", "bookings"
-  add_foreign_key "bookings_seats", "seats"
   add_foreign_key "flights", "aircrafts"
-  add_foreign_key "seats", "flights"
   add_foreign_key "tickets", "bookings"
   add_foreign_key "tickets", "flights"
 end

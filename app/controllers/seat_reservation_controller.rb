@@ -9,8 +9,8 @@ class SeatReservationController < ApplicationController
         request[:seat_code]
       )
 
-       ticket = Ticket.find(request[:ticket_id])
-       ticket.start_confirm_seat!(
+
+       Ticket.find(request[:ticket_id]).start_confirm_seat!(
           request[:flight_id],
           request[:seat_code],
           user_id = 1

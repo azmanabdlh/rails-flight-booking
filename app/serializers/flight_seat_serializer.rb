@@ -24,14 +24,12 @@ class FlightSeatSerializer
   end
 
 
-
   nested :flight_seats do
     attribute :unavailable_seats do |flight|
-      flight.seats.not_available.map do |seat|
+      flight.tickets.boarding.map do |seat|
         {
           seat_code: seat.seat_code,
-          cabin_code: seat.cabin_code,
-          availability_state: seat.availability_state
+          cabin_code: seat.cabin_code
         }
       end
     end

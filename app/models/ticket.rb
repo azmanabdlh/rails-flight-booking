@@ -35,12 +35,11 @@ class Ticket < ApplicationRecord
   end
 
   def seat_assigned?
-    seat_code != "" && boaring?
+    seat_code != "" && boarding?
   end
 
   def assign_seat_to_ticket!(seat_code)
     update!(
-      # TODO: pessager snapshot...
       seat_code: seat_code,
       status: "boarding",
     )

@@ -1,7 +1,7 @@
 class SeatReservationController < ApplicationController
   def call
     begin
-      request = params.permit(:flight_id, :cabin_code, :seat_code, :booking_id)
+      request = params.permit(:flight_id, :cabin_code, :seat_code, :booking_id, :ticket_id)
 
       raise ActiveRecord::RecordNotFound unless seat_code_valid_for_cabin?(
         request[:flight_id],
@@ -9,7 +9,7 @@ class SeatReservationController < ApplicationController
         request[:seat_code]
       )
 
-      raise Booking::NotPaid.new "You booking is not paid yet." unless book.paid? Booking.find(request[:booking_id])
+      raise Booking::NotPaid.new "You booking is not paid yet." unless Booking.find(request[:booking_id]).paid?
 
        Ticket.find(request[:ticket_id]).start_confirm_seat!(
           request[:flight_id],
@@ -21,7 +21,7 @@ class SeatReservationController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       render json: { message: "Seat not found" }, status: :not_found
     rescue => e
-      render json: { message: e.message }, status: :bad_requestuest
+      render json: { message: e.message }, status: :bad_request
     end
   end
 

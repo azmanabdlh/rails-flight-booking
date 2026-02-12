@@ -34,7 +34,9 @@ class SeatReservationController < ApplicationController
   end
 
   def seat_code_valid_for_cabin?(flight_id, cabin_code, seat_code)
-    Flight.find(flight_id)
-      .seat_code_valid_for_cabin?(seat_code, cabin_code)
+    flight = Flight.find(flight_id)
+    return false unless flight.open_for_sale?
+
+    flight.seat_code_valid_for_cabin?(seat_code, cabin_code)
   end
 end

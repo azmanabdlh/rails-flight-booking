@@ -6,7 +6,7 @@ class FlightSeatController < ApplicationController
 
       raise "invalid flight id" unless flight.open_for_sale?
 
-      render json: { message: "ok", data: serialize(flight) }, status: :ok
+      render json: { message: "Ok", data: serialize(flight) }, status: :ok
     rescue ActiveRecord::RecordNotFound
       render json: { message: "Seat not found", data: [] }, status: :not_found
     rescue => e

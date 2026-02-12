@@ -1,0 +1,2 @@
+module FlightBookingHelper
+end

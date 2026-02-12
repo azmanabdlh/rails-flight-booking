@@ -25,7 +25,7 @@ class Ticket < ApplicationRecord
       return nil if seat_assigned?
 
       raise Booking::NotPaid unless booking.paid?
-      raise Ticket::SeatUnavailable, seat_code unless Ticket.seat_available?(flight_id, seat_code)
+      raise Ticket::SeatUnavailable unless Ticket.seat_available?(flight_id, seat_code)
 
       assign_seat_to_ticket!(seat_code)
     end
@@ -45,8 +45,8 @@ class Ticket < ApplicationRecord
 
 
   class SeatUnavailable < StandardError
-    def initialize(seat_code)
-      super("Seat #{seat_code} is unavailable")
+    def initialize
+      super("Seat unavailable")
     end
   end
 end

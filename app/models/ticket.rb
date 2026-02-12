@@ -25,7 +25,7 @@ class Ticket < ApplicationRecord
       return nil if seat_assigned?
 
       raise Booking::NotPaid unless booking.paid?
-      raise Ticket::SeatUnavailable unless Ticket.seat_available?(flight_id, seat_code)
+      raise SeatUnavailable unless Ticket.seat_available?(flight_id, seat_code)
 
       assign_seat_to_ticket!(seat_code)
     end

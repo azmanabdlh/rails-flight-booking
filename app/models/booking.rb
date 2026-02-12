@@ -10,7 +10,6 @@ class Booking < ApplicationRecord
 
   BOOKING_EXPIRE_DURATION = 10.minutes
 
-
   def self.start_booking(
     flight_id,
     user_id

@@ -15,12 +15,13 @@ class Booking < ApplicationRecord
     flight_id,
     user_id
   )
-      create(
-        booking_code: generate_code,
-        phase: 3,
-        user_id: user_id,
-        expired_at: BOOKING_EXPIRE_DURATION.from_now
-      )
+    create(
+      booking_code: generate_code,
+      phase: 3, # PENDING
+      user_id: user_id,
+      flight_id: flight_id,
+      expired_at: BOOKING_EXPIRE_DURATION.from_now
+    )
   end
 
 
@@ -32,7 +33,7 @@ class Booking < ApplicationRecord
 
   private
   def generate_code
-    SecureRandom.alphanumeric(8).upcase
+    "PNR#{SecureRandom.hex(4).upcase}"
   end
 
 end

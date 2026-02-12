@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_12_080001) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_12_144246) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,6 +43,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_080001) do
     t.datetime "expired_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "flight_id"
+    t.index ["flight_id"], name: "index_bookings_on_flight_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
@@ -81,6 +83,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_080001) do
   end
 
   add_foreign_key "aircraft_cabins", "aircrafts"
+  add_foreign_key "bookings", "flights"
   add_foreign_key "bookings", "users"
   add_foreign_key "flights", "aircrafts"
   add_foreign_key "tickets", "bookings"

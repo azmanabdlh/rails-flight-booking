@@ -1,7 +1,9 @@
 class Flight < ApplicationRecord
   belongs_to :aircraft
+
   has_many :seats
   has_many :bookings
+  has_many :tickets
 
 
   enum :operational_state, {

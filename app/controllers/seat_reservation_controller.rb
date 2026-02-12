@@ -10,7 +10,8 @@ class SeatReservationController < ApplicationController
       )
 
 
-       Ticket.find(request[:ticket_id]).start_confirm_seat!(
+       seat_assignment(
+          request[:ticket_id],
           request[:flight_id],
           request[:seat_code],
           user_id = 1
@@ -25,11 +26,18 @@ class SeatReservationController < ApplicationController
   end
 
   private
-  def seat_code_valid_for_cabin?(
-    flight_id,
-    cabin_code,
-    seat_code
-  )
+
+  def seat_assignment(ticket_id, flight_id, seat_code, user_id)
+    ticket = Ticket.find!(ticket_id)
+
+    ticket.start_confirm_seat!(
+      flight_id,
+      seat_code,
+      user_id
+    )
+  end
+
+  def seat_code_valid_for_cabin?(flight_id, cabin_code, seat_code)
     Flight.find(flight_id)
       .seat_code_valid_for_cabin?(seat_code, cabin_code)
   end

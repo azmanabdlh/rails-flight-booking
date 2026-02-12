@@ -11,6 +11,19 @@ class Booking < ApplicationRecord
   BOOKING_EXPIRE_DURATION = 10.minutes
 
 
+  def self.start_booking(
+    flight_id,
+    user_id
+  )
+      create(
+        booking_code: generate_code,
+        phase: 3,
+        user_id: user_id,
+        expired_at: BOOKING_EXPIRE_DURATION.from_now
+      )
+  end
+
+
   class NotPaid < StandardError
     def initialize
       super("You booking is not paid yet.")

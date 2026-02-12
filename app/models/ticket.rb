@@ -24,6 +24,7 @@ class Ticket < ApplicationRecord
     transaction do
       return nil if ticket.seat_assigned?
 
+      raise Booking::NotPaid unless booking.paid?
       raise Ticket::SeatUnavailable, seat_code unless Ticket.seat_available?(
         request[:flight_id],
         request[:seat_code]

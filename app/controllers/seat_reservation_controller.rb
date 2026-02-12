@@ -1,7 +1,7 @@
 class SeatReservationController < ApplicationController
   def call
     begin
-      request = params.permit(:flight_id, :cabin_code, :seat_code, :booking_id, :ticket_id)
+      request = params.permit(:flight_id, :cabin_code, :seat_code, :ticket_id)
 
       raise ActiveRecord::RecordNotFound unless seat_code_valid_for_cabin?(
         request[:flight_id],
@@ -9,9 +9,8 @@ class SeatReservationController < ApplicationController
         request[:seat_code]
       )
 
-      raise Booking::NotPaid unless Booking.find(request[:booking_id]).paid?
-
-       Ticket.find(request[:ticket_id]).start_confirm_seat!(
+       ticket = Ticket.find(request[:ticket_id])
+       ticket.start_confirm_seat!(
           request[:flight_id],
           request[:seat_code],
           user_id = 1

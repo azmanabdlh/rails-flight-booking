@@ -11,11 +11,11 @@ class SeatReservationController < ApplicationController
        seat_assignment(
           params[:ticket_id],
           params[:flight_id],
-          params[:passanger_id],
+          params[:passenger_id],
           params[:seat_code]
         )
 
-      render json: { message: "Seat #{params[:seat_code]} booked", success: true }, status: :created
+      render json: { message: "Seat booked", success: true }, status: :created
     rescue ActiveRecord::RecordNotFound
       render json: { message: "Seat not found" }, status: :not_found
     rescue => e
@@ -25,10 +25,10 @@ class SeatReservationController < ApplicationController
 
   private
 
-  def seat_assignment(ticket_id, flight_id, seat_code, passanger_id)
+  def seat_assignment(ticket_id, flight_id, passenger_id, seat_code)
     Ticket.find(ticket_id).start_confirm_seat!(
       flight_id,
-      passanger_id,
+      passenger_id,
       seat_code
     )
   end

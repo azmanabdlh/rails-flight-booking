@@ -1,7 +1,7 @@
 class Ticket < ApplicationRecord
   belongs_to :booking
   belongs_to :flight
-  belongs_to :passanger
+  belongs_to :passenger
 
 
   enum :status, {
@@ -25,6 +25,7 @@ class Ticket < ApplicationRecord
   )
     transaction do
       return nil if seat_assigned?(pax_id)
+      raise "invalid passenger" unless booking.allowed_passenger?(pax_id)
 
       raise Booking::Exception::NotPaid unless booking.paid?
       raise SeatUnavailable unless Ticket.seat_available?(flight_id, seat_code)
@@ -36,7 +37,7 @@ class Ticket < ApplicationRecord
   def seat_assigned?(pax_id)
     return false if seat_code.blank?
 
-    boarding? && pax_id == passenger_id
+    boarding? && pax_id == passenger_id.to_i
   end
 
   def assign_seat_to_ticket!(seat_code)

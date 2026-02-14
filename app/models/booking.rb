@@ -39,6 +39,10 @@ class Booking < ApplicationRecord
 
   end
 
+  def allowed_passenger?(passenger_id)
+    passengers.pluck(:id).include?(passenger_id)
+  end
+
   module Exception
     class MissingPassenger < StandardError
       def initialize(message = "Passenger data is required for this operation.")

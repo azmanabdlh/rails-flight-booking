@@ -50,6 +50,12 @@ class Booking < ApplicationRecord
       end
     end
 
+    class InvalidPassenger < StandardError
+      def initialize(message = "Invalid passanger data.")
+        super
+      end
+    end
+
     class NotPaid < StandardError
       def initialize(message = "You booking is not paid yet.")
         super

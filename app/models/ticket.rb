@@ -25,9 +25,10 @@ class Ticket < ApplicationRecord
   )
     transaction do
       return nil if seat_assigned?(pax_id)
-      raise "invalid passenger" unless booking.allowed_passenger?(pax_id)
 
+      raise Booking::Exception::InvalidPassenger unless booking.allowed_passenger?(pax_id)
       raise Booking::Exception::NotPaid unless booking.paid?
+
       raise SeatUnavailable unless Ticket.seat_available?(flight_id, seat_code)
 
       assign_seat_to_ticket!(seat_code)

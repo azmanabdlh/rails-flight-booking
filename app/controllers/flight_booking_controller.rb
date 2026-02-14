@@ -23,7 +23,7 @@ class FlightBookingController < ApplicationController
   end
 
   def passengers(idx)
-    return [] if idx.nil?
+    return [] if idx.blank?
     Passenger.available.where(id: idx.map(&:to_i))
   end
 

@@ -24,7 +24,7 @@ class Booking < ApplicationRecord
     raise Exception::MissingPassenger if passengers.empty?
 
     transaction do
-      booking_instance = create(
+      instance = create(
         booking_code: generate_code,
         phase: 3, # PENDING
         user_id: user_id,
@@ -32,9 +32,7 @@ class Booking < ApplicationRecord
         expired_at: BOOKING_EXPIRE_DURATION.from_now
       )
 
-      passengers.each do |passenger|
-        booking_instance.passengers << passenger
-      end
+      instance.passengers.insert_all(passengers)
     end
 
   end

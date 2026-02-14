@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   scope "/api" do
     post "/flight-seat/reservation", to: "seat_reservation#call"
+    post "/flight/booking", to: "flight_booking#new"
 
     get "/flight-seat/:flight_id", to: "flight_seat#call"
   end

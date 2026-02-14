@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_12_144246) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_13_033301) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,6 +61,23 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_144246) do
     t.index ["aircraft_id"], name: "index_flights_on_aircraft_id"
   end
 
+  create_table "passenger_snapshots", force: :cascade do |t|
+    t.bigint "passenger_id", null: false
+    t.bigint "booking_id", null: false
+    t.index ["booking_id"], name: "index_passenger_snapshots_on_booking_id"
+    t.index ["passenger_id"], name: "index_passenger_snapshots_on_passenger_id"
+  end
+
+  create_table "passengers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.date "birth_date"
+    t.boolean "active"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tickets", force: :cascade do |t|
     t.bigint "booking_id", null: false
     t.bigint "flight_id", null: false
@@ -86,6 +103,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_144246) do
   add_foreign_key "bookings", "flights"
   add_foreign_key "bookings", "users"
   add_foreign_key "flights", "aircrafts"
+  add_foreign_key "passenger_snapshots", "bookings"
+  add_foreign_key "passenger_snapshots", "passengers"
   add_foreign_key "tickets", "bookings"
   add_foreign_key "tickets", "flights"
 end

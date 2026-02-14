@@ -11,8 +11,8 @@ class SeatReservationController < ApplicationController
        seat_assignment(
           params[:ticket_id],
           params[:flight_id],
-          params[:seat_code],
-          user_id = 1
+          params[:passanger_id],
+          params[:seat_code]
         )
 
       render json: { message: "Seat #{params[:seat_code]} booked", success: true }, status: :created
@@ -25,11 +25,11 @@ class SeatReservationController < ApplicationController
 
   private
 
-  def seat_assignment(ticket_id, flight_id, seat_code, user_id)
+  def seat_assignment(ticket_id, flight_id, seat_code, passanger_id)
     Ticket.find(ticket_id).start_confirm_seat!(
       flight_id,
-      seat_code,
-      user_id
+      passanger_id,
+      seat_code
     )
   end
 

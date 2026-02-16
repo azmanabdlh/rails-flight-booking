@@ -33,6 +33,7 @@ class Booking < ApplicationRecord
       )
 
       instance.passengers.insert_all(passengers)
+      instance
     end
 
   end

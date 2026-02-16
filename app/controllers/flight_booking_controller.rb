@@ -7,17 +7,22 @@ class FlightBookingController < ApplicationController
 
       raise "invalid flight id" unless flight.open_for_sale?
 
-      Booking.start_booking(
+      user_id = 1 # example, please refer to current auth user
+
+      booking = Booking.start_booking(
         flight.id,
         passengers(
           params[:passengers]
         ),
-        user_id = 1
+        user_id
       )
 
-      render json: { message: "ok" }, status: :created
+      session = User.find(user_id).create_payment_session(booking)
+
+
+      render json: { message: "ok", url: session.url }, status: :created
     rescue => e
-      render json: { message: e.message }, status: :bad_request
+      render json: { message: e.message, url: "" }, status: :bad_request
     end
 
   end

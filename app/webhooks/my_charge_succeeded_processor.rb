@@ -8,9 +8,9 @@ class MyChargeSucceededProcessor
       booking = Booking.find(booking_id)
       booking.update(phase: "paid")
 
-      # make ticket for passengers
-      booking.passengers.each do |passenger|
-        Ticket.create(
+      # ticket issued for passengers
+      tickets = booking.passengers.map do |passenger|
+        Ticket.new(
           booking_id: booking_id,
           flight_id: event.data.object.metadata.flight_id.to_i,
           passenger_id: passenger.id,
@@ -18,6 +18,8 @@ class MyChargeSucceededProcessor
           issued_at: Time.now
         )
       end
+
+      Ticket.insert_all(tickets)
     end
   end
 end

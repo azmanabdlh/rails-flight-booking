@@ -10,3 +10,7 @@ Pay.setup do |config|
 
   config.send_emails = false
 end
+
+ActiveSupport.on_load(:pay) do
+  Pay::Webhooks.delegator.subscribe "stripe.checkout.session.completed", MyChargeSucceededProcessor.new
+end

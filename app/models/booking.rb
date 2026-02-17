@@ -32,7 +32,7 @@ class Booking < ApplicationRecord
         expired_at: BOOKING_EXPIRE_DURATION.from_now
       )
 
-      instance.passengers.insert_all(passengers)
+      passengers.each { |passenger| instance.passengers << passenger }
       instance
     end
 

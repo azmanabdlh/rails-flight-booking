@@ -12,10 +12,7 @@ class Ticket < ApplicationRecord
   }
 
   def self.seat_available?(flight_id, seat_code)
-    lock.find_by(
-      flight_id: flight_id,
-      seat_code: seat_code
-    ).nil?
+    lock.find_by(flight_id: flight_id, seat_code: seat_code).nil?
   end
 
   def start_confirm_seat!(

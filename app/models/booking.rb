@@ -38,6 +38,19 @@ class Booking < ApplicationRecord
 
   end
 
+  def checkout_session!
+    return "already paid" if paid?
+    return "invalid booking" if cancelled? || expired?
+
+    user.payment_processor.checkout(
+      checkout_params
+    )
+  end
+
+  def total_passengers
+    passengers.size
+  end
+
   def allowed_passenger?(passenger_id)
     passengers.pluck(:id).include?(passenger_id)
   end
@@ -60,6 +73,33 @@ class Booking < ApplicationRecord
         super
       end
     end
+  end
+
+  private
+  def checkout_params(**opts)
+    {
+      mode: "payment",
+      success_url: opts[:success_url],
+      client_reference_id: booking.id,
+      payment_intent_data: {
+        metadata: {
+          flight_id: flight_id,
+          user_id: user.id
+        }
+      },
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Flight ticket"
+            },
+            unit_amount: 2000 # example. please refer to "flight.original_price"
+          },
+          quantity: total_passengers
+        }
+      ]
+    }
   end
 
 end

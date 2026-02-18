@@ -38,12 +38,12 @@ class Booking < ApplicationRecord
 
   end
 
-  def checkout_session!
+  def checkout_session!(success_url)
     raise "already paid" if paid?
     raise "invalid booking" if cancelled? || expired?
 
     user.payment_processor.checkout(
-      checkout_params
+      checkout_params(success_url: success_url)
     )
   end
 

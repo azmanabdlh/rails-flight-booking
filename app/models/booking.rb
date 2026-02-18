@@ -38,12 +38,32 @@ class Booking < ApplicationRecord
 
   end
 
-  def checkout_session!(success_url)
+  def checkout_session!(**opts)
     raise "already paid" if paid?
     raise "invalid booking" if cancelled? || expired?
 
     user.payment_processor.checkout(
-      checkout_params(success_url: success_url)
+      mode: "payment",
+      success_url: opts[:success_url],
+      client_reference_id: id,
+      payment_intent_data: {
+        metadata: {
+          flight_id: flight_id,
+          user_id: user.id
+        }
+      },
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Flight ticket"
+            },
+            unit_amount: 2000 # example. please refer to "flight.original_price"
+          },
+          quantity: total_passengers
+        }
+      ]
     )
   end
 
@@ -74,32 +94,4 @@ class Booking < ApplicationRecord
       end
     end
   end
-
-  private
-  def checkout_params(**opts)
-    {
-      mode: "payment",
-      success_url: opts[:success_url],
-      client_reference_id: booking.id,
-      payment_intent_data: {
-        metadata: {
-          flight_id: flight_id,
-          user_id: user.id
-        }
-      },
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Flight ticket"
-            },
-            unit_amount: 2000 # example. please refer to "flight.original_price"
-          },
-          quantity: total_passengers
-        }
-      ]
-    }
-  end
-
 end

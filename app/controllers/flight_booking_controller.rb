@@ -20,7 +20,9 @@ class FlightBookingController < ApplicationController
         user.id
       )
 
-      session = booking.checkout_session! root_url
+      session = booking.checkout_session!(
+        success_url: root_url
+      )
 
       render json: { message: "ok", url: session.url }, status: :created
     rescue => e
